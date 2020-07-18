@@ -1,0 +1,20 @@
+table {
+  width: 100%;
+}
+
+.layout-table {
+    display: flex;
+    width: 100vw;
+    justify-content: center; 
+}
+
+.content-table {
+    width: 80%;
+    height: 500px;
+}
+
+.button-add {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0;
+}
