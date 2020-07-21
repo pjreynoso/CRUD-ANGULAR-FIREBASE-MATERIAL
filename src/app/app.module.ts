@@ -21,6 +21,24 @@ import { CreateModalComponent } from './create-modal/create-modal.component'
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 
+// Firebase ------------->
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { EmailValidationDirective } from './validations/email-validation.directive';
+
+var config = {
+    apiKey: "AIzaSyC3C8gydFRx1HROxdICfU3CLXreLh7WHyY",
+    authDomain: "project-employee-40060.firebaseapp.com",
+    databaseURL: "https://project-employee-40060.firebaseio.com",
+    projectId: "project-employee-40060",
+    storageBucket: "project-employee-40060.appspot.com",
+    messagingSenderId: "608952340275",
+    appId: "1:608952340275:web:caaa9f6cdbc411031af846",
+    measurementId: "G-03SZN5HR81"
+  };
+
 
 
 const appRouter: Routes = [
@@ -37,7 +55,8 @@ const appRouter: Routes = [
     EditEmployeeComponent,
     TableComponent,
     CreateModalComponent,
-    DialogOverviewDialog
+    DialogOverviewDialog,
+    EmailValidationDirective
   ],
   imports: [
     BrowserModule,
@@ -56,7 +75,12 @@ const appRouter: Routes = [
     MatSelectModule,
     ReactiveFormsModule,
     FormsModule,
-    MatSliderModule 
+    MatSliderModule,
+    //firebase
+    AngularFireModule.initializeApp(config),
+    AngularFirestoreModule, // firestore
+    AngularFireAuthModule, // auth
+    AngularFireStorageModule // storage 
   ],
   providers: [
   ],

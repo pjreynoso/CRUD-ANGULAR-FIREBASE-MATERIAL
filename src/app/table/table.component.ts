@@ -1,37 +1,49 @@
-import {Component, Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormControl, Validators} from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { EmployeeService } from '../service/employee.service';
+import { Employee } from '../models/employee'
 
 
-export interface Employees {
-  id: number;
-  name: string;
-  salary: number;
-  state: string;
-  position: string;
-  mail: string;
-}
-
-const EMPLOYEES_DATA: Employees[] = [
-  {id: 1, name: 'Pablo Reynoso Mena', salary: 2000, state: 'a', position: 'programador', mail:'p.reynoso.mena@gmail.com'},
-  {id: 2, name: 'Pablo Reynoso Mena', salary: 2000, state: 'a', position: 'programador', mail:'p.reynoso.mena@gmail.com'},
-  {id: 3, name: 'Pablo Reynoso Mena', salary: 2000, state: 'a', position: 'programador', mail:'p.reynoso.mena@gmail.com'},
-];
-
-/**
- * @title Basic use of `<table mat-table>`
- */
 @Component({
   selector: 'app-table',
   styleUrls: ['table.component.css'],
   templateUrl: 'table.component.html',
 })
 export class TableComponent {
-  displayedColumns: string[] = ['name', 'salary', 'state', 'position', 'mail', 'view', 'delete'];
-  dataSource = EMPLOYEES_DATA;
+  employeesData: any;
+  public displayedColumns: string[] = ['name', 'salary', 'state', 'position', 'mail', 'view', 'delete'];
+  position = [
+    {id: 0, value: 'Docente'},
+    {id: 1, value: 'Director'},
+    {id: 2, value: 'Auxiliar'},
+    {id: 3, value: 'Coordinador'},
+  ]
 
-  constructor(public dialog: MatDialog) {}
-  viewProfileButton(element: Employees){
+  constructor(public dialog: MatDialog, private serv: EmployeeService) {
+    this.serv.getEmployees().subscribe( items =>  {
+      this.employeesData = items
+      console.log(this.employeesData)
+    })
+  }
+
+  getState(salary: number){
+   if(salary <= 1000) {
+     return "Bajo"
+   } else if(salary <= 1500){
+     return "Medio"
+   } else if(salary <= 1900){
+     return "Alto"
+   } else {
+     return "Muy Alto"
+   }
+  }
+
+  getPosition(id: number){
+    let position = this.position.find( e => e.id == id)
+    return position.value
+  }
+
+  viewProfileButton(element: Employee){
     console.log(element)
   }
 
@@ -54,7 +66,7 @@ export class DialogOverviewDialog {
 
   constructor(
     public dialogRef: MatDialogRef<DialogOverviewDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Employees) {}
+    @Inject(MAT_DIALOG_DATA) public data: Employee) {}
 
   onNoClick(): void {
     this.dialogRef.close();
