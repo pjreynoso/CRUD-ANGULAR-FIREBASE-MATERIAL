@@ -3,12 +3,14 @@ import {
     FormGroup,
     Validators,
     FormBuilder,
+    FormControl,
     ValidatorFn,
     AbstractControl,
     Validator,
     ValidationErrors} from '@angular/forms';
 import { EmployeeService } from '../service/employee.service'
-import { emailValidation } from '../validations/email-validation.directive'
+import { ExistEmailValidator }  from './exist-email-validator'
+
 
 
 @Component({
@@ -21,6 +23,7 @@ export class CreateModalComponent implements OnInit {
   @Input() isEdit: Boolean;
   @Input() DATABASE: any;
   employeeForm: FormGroup;
+  data: any;
 
   position = [
     {id: 0, value: 'Docente'},
@@ -37,6 +40,7 @@ export class CreateModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var isExistEmailValidator = new ExistEmailValidator(this.serv);
     this.employeeForm = this.formBuilder.group({
       name: [null, Validators.required],
       lastName: [null, Validators.required],
@@ -45,11 +49,16 @@ export class CreateModalComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.email,
-          emailValidation(this.DATABASE)
+          isExistEmailValidator.isExistEmail.bind(isExistEmailValidator)
         ])
       ],
       salary: [null, Validators.required]
     })
+
+  }
+
+  changeEmail(){
+    this.serv.getEmailEmployees(this.employeeForm.controls.mail.value).subscribe( (e: any) => this.data = e);
   }
 
   getErrorMessage() {

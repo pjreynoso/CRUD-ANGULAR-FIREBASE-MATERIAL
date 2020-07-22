@@ -31,7 +31,7 @@
     <mat-grid-tile>
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input matInput formControlName="mail" placeholder="Ex. pat@example.com">
+        <input matInput formControlName="mail" placeholder="Ex. pat@example.com" (change)="changeEmail()">
         <mat-error *ngIf="employeeForm.controls.mail.status == 'INVALID'">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </mat-grid-tile>

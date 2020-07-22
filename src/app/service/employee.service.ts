@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 
 export interface Item { 
   id: number;
@@ -29,6 +30,9 @@ export class EmployeeService{
   }
   
   addEmployee(item: Item) {
-    this.itemsCollection.add(item);
+  }
+
+  getEmailEmployees(value: string) {
+    return this.afs.collection('Items',ref => ref.where('mail', '==', value)).valueChanges();
   }
 }

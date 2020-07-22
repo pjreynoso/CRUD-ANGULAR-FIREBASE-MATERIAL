@@ -26,7 +26,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { EmailValidationDirective } from './validations/email-validation.directive';
 
 var config = {
     apiKey: "AIzaSyC3C8gydFRx1HROxdICfU3CLXreLh7WHyY",
@@ -44,7 +43,7 @@ var config = {
 const appRouter: Routes = [
   {path: '', component: TableComponent },
   {path: 'home', component: TableComponent },
-  {path: 'profile', component: ProfileComponent}
+  {path: 'profile/:id', component: ProfileComponent}
 ]
 
 @NgModule({
@@ -55,8 +54,7 @@ const appRouter: Routes = [
     EditEmployeeComponent,
     TableComponent,
     CreateModalComponent,
-    DialogOverviewDialog,
-    EmailValidationDirective
+    DialogOverviewDialog
   ],
   imports: [
     BrowserModule,

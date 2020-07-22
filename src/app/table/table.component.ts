@@ -9,7 +9,7 @@ import { Employee } from '../models/employee'
   styleUrls: ['table.component.css'],
   templateUrl: 'table.component.html',
 })
-export class TableComponent {
+export class TableComponent  {
   employeesData: any;
   public displayedColumns: string[] = ['name', 'salary', 'state', 'position', 'mail', 'view', 'delete'];
   position = [
