@@ -1,15 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
     FormGroup,
     Validators,
     FormBuilder,
-    FormControl,
-    ValidatorFn,
-    AbstractControl,
-    Validator,
-    ValidationErrors} from '@angular/forms';
+    } from '@angular/forms';
 import { EmployeeService } from '../service/employee.service'
-import { ExistEmailValidator }  from './exist-email-validator'
+import { ValidatorsComponent } from '../validators/validators.component'
 
 
 
@@ -21,9 +17,13 @@ import { ExistEmailValidator }  from './exist-email-validator'
 
 export class CreateModalComponent implements OnInit {
   @Input() isEdit: Boolean;
-  @Input() DATABASE: any;
+  @Input() employee: any;
+  @Input() employeeId: string;
+  //@Input() DATABASE: any;
+  @Output() closedModal = new EventEmitter
   employeeForm: FormGroup;
-  data: any;
+  emailValid: Boolean;
+  //data: any;
 
   position = [
     {id: 0, value: 'Docente'},
@@ -32,7 +32,6 @@ export class CreateModalComponent implements OnInit {
     {id: 3, value: 'Coordinador'},
   ]
 
-
   constructor(
     private formBuilder: FormBuilder,
     private serv: EmployeeService
@@ -40,7 +39,6 @@ export class CreateModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    var isExistEmailValidator = new ExistEmailValidator(this.serv);
     this.employeeForm = this.formBuilder.group({
       name: [null, Validators.required],
       lastName: [null, Validators.required],
@@ -48,30 +46,65 @@ export class CreateModalComponent implements OnInit {
       mail: [null, 
         Validators.compose([
           Validators.required,
-          Validators.email,
-          isExistEmailValidator.isExistEmail.bind(isExistEmailValidator)
+          Validators.email
         ])
       ],
       salary: [null, Validators.required]
+    }, {
+      validator: () => {
+            console.log(this.emailValid,"validator")
+            return  {'emailValid': true}
+      }
     })
+    this.employeeForm.setValue(this.employee)
 
   }
 
   changeEmail(){
-    this.serv.getEmailEmployees(this.employeeForm.controls.mail.value).subscribe( (e: any) => this.data = e);
+    try {
+     this.serv.getEmailEmployees(this.employeeForm.value.mail).subscribe( 
+       e => {
+         this.emailValid = !e[0] 
+         console.log(this.emailValid,"function change")
+       }
+     );
+    } catch(error){
+      console.log(error,"eror")
+    }
+      console.log(this.emailValid,"email")
   }
 
   getErrorMessage() {
-    let mailControls = this.employeeForm.controls.mail.errors
-    if(mailControls.required) return "El Correo es Requerido"
-    if (mailControls.email) return 'El valor debe ser un correo';
+    let mailControls = this.employeeForm.controls.mail.errors ?? {}
+    console.log(this.emailValid,"funcion error")
+    const { required, email } = mailControls
+    if(required) return "El Correo es Requerido"
+    if (email) return 'El valor debe ser un correo';
+    if(!this.emailValid) return 'Email es Invalido'
+  } 
+  closeModal() {
+   this.closedModal.emit()
   }
 
 
   onSubmit() {
+     this.serv.getEmailEmployees(this.employeeForm.value.mail).subscribe( 
+       e => {
+         if(e[0])
+          {
+            console.log("falso")
+          this.emailValid = false
+          }
+         else {
+            this.emailValid = true
+            console.log("true")
+         }
+       }
+     );
     try {
       if (this.isEdit) {
         //Edit
+        this.serv.updateEmployee(this.employeeId,this.employeeForm.value)
       } else{
         //Create
         this.serv.addEmployee(this.employeeForm.value);

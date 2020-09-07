@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MenuComponent } from './menu/menu.component';
 import { ProfileComponent } from './profile/profile.component';
-import { TableComponent, DialogOverviewDialog } from './table/table.component';
+import { TableComponent } from './table/table.component';
 import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,8 +26,18 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { ModalComponent } from './modal/modal.component';
+import { ValidatorsComponent } from './validators/validators.component';
 
 var config = {
+    apiKey: "AIzaSyC3C8gydFRx1HROxdICfU3CLXreLh7WHyY",
+    authDomain: "project-employee-40060.firebaseapp.com",
+    databaseURL: "https://project-employee-40060.firebaseio.com",
+    projectId: "project-employee-40060",
+    storageBucket: "project-employee-40060.appspot.com",
+    messagingSenderId: "608952340275",
+    appId: "1:608952340275:web:caaa9f6cdbc411031af846",
+    measurementId: "G-03SZN5HR81"
   };
 
 
@@ -46,7 +56,8 @@ const appRouter: Routes = [
     EditEmployeeComponent,
     TableComponent,
     CreateModalComponent,
-    DialogOverviewDialog
+    ModalComponent,
+    ValidatorsComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +69,7 @@ const appRouter: Routes = [
     MatIconModule,
     MatTableModule,
     MatTableModule, 
-    MatDialogModule ,
+    MatDialogModule,
     MatFormFieldModule,
     MatGridListModule,
     MatInputModule,
@@ -76,7 +87,7 @@ const appRouter: Routes = [
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    DialogOverviewDialog
+    ModalComponent
   ],
   exports: [CreateModalComponent]
 

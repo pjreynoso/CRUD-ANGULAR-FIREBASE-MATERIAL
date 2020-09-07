@@ -12,17 +12,18 @@
             <div>
                 <img class="img-avatar" src="../../assets/default-avatar.jpg" width="200px">
             </div>
+            <h2>{{this.getPosition(this.EMPLOYEE.position)}}</h2>
             <div class="button-edit">
-                <button mat-raised-button color="primary">EDITAR</button>
+                <button mat-raised-button color="primary" (click)="openDialog()">EDITAR</button>
             </div>
         </div>
     </mat-grid-tile>
     <mat-grid-tile colspan="3">
         <div class="content-personal-information">
-            <p>Pablo Reynoso</p>
-            <p>Mena</p>
-            <p>S/. 4000</p>
-            <p>p.reynoso.mena@gmail.com</p>
+            <p>{{this.EMPLOYEE.name}}</p>
+            <p>{{this.EMPLOYEE.lastName}}</p>
+            <p>{{this.EMPLOYEE.salary}}</p>
+            <p>{{this.EMPLOYEE.mail}}</p>
         </div>
     </mat-grid-tile>
 </mat-grid-list>

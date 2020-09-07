@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { EmployeeService } from '../service/employee.service';
-import { Employee } from '../models/employee'
+import { ModalComponent } from '../modal/modal.component'
 
 
 @Component({
@@ -43,13 +43,15 @@ export class TableComponent  {
     return position.value
   }
 
-  viewProfileButton(element: Employee){
-    console.log(element)
+  deleteEmployee(id: string) {
+    console.log(id,"id")
+    this.serv.deleteEmployee(id)
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogOverviewDialog, {
+    const dialogRef = this.dialog.open(ModalComponent, {
       width: '600px',
+      data: {isEdit: false}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -57,21 +59,3 @@ export class TableComponent  {
     });
   }
 }
-
-@Component({
-  selector: 'create-dialog-overview',
-  templateUrl: 'create-dialog-overview.html',
-})
-export class DialogOverviewDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverviewDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Employee) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-}
-
-

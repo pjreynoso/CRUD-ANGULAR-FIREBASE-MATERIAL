@@ -32,7 +32,7 @@
       <mat-form-field>
         <mat-label>Email</mat-label>
         <input matInput formControlName="mail" placeholder="Ex. pat@example.com" (change)="changeEmail()">
-        <mat-error *ngIf="employeeForm.controls.mail.status == 'INVALID'">{{getErrorMessage()}}</mat-error>
+        <mat-error>{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
@@ -56,8 +56,8 @@
   <mat-grid-list cols="1" rowHeight="10:1">
     <mat-grid-tile>
       <div class="group-button">
-        <button color="primary">CANCELAR</button>
-        <button mat-raised-button type="submit" [disabled]="!employeeForm.valid">
+        <a  (click)="closeModal()">CANCELAR</a>
+        <button color="primary" mat-raised-button type="submit" [disabled]="!employeeForm.valid">
           ACEPTAR
         </button>
       </div>
